@@ -180,3 +180,46 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 }
 ```
 
+```
+#include <windows.h>
+#include <tlhelp32.h>
+#include <tchar.h>
+#include <iostream>
+#include <string>
+
+void FindProcessesLoadingDLL(const std::wstring& dllName)
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnapshot == INVALID_HANDLE_VALUE) return;
+
+    PROCESSENTRY32 pe32 = { sizeof(PROCESSENTRY32) };
+
+    if (Process32First(hSnapshot, &pe32)) {
+        do {
+            HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pe32.th32ProcessID);
+            if (hModuleSnap == INVALID_HANDLE_VALUE) continue;
+
+            MODULEENTRY32 me32 = { sizeof(MODULEENTRY32) };
+            if (Module32First(hModuleSnap, &me32)) {
+                do {
+                    std::wstring moduleName(me32.szModule);
+                    if (_wcsicmp(moduleName.c_str(), dllName.c_str()) == 0) {
+                        std::wcout << L"[+] Process " << pe32.szExeFile << L" (PID: " << pe32.th32ProcessID << L") has loaded " << dllName << std::endl;
+                    }
+                } while (Module32Next(hModuleSnap, &me32));
+            }
+            CloseHandle(hModuleSnap);
+        } while (Process32Next(hSnapshot, &pe32));
+    }
+
+    CloseHandle(hSnapshot);
+}
+
+int wmain()
+{
+    std::wstring dllToFind = L"rasadhlp.dll"; // hoặc L"AutodialDLL.dll" nếu bạn có tên chính xác
+    FindProcessesLoadingDLL(dllToFind);
+    return 0;
+}
+
+```
